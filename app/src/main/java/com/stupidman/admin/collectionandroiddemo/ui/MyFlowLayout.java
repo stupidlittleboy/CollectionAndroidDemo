@@ -117,7 +117,7 @@ public class MyFlowLayout extends ViewGroup {
                 lineWidth = 0;
                 lineHeight = childHeight + layoutParams.topMargin + layoutParams.bottomMargin;
                 //重置view的集合
-                lineViews = new ArrayList();
+                lineViews = new ArrayList<View>();
             }
             lineWidth += childWidth + layoutParams.leftMargin + layoutParams.rightMargin;
             lineHeight = Math.max(lineHeight, childHeight + layoutParams.topMargin + layoutParams.bottomMargin);
