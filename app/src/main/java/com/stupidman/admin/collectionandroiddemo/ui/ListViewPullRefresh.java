@@ -12,6 +12,17 @@ import android.widget.LinearLayout;
  * Created by admin on 2015/5/27.
  */
 public class ListViewPullRefresh extends LinearLayout implements View.OnTouchListener{
+
+    /**
+     * 下拉状态
+     */
+    private static final int STATUS_PULL_TO_REFRESH = 0;
+
+    /**
+     * 释放立即刷新状态
+     */
+    private static final int STATUS_RELEASE_TO_REFRESH = 1;
+
     public ListViewPullRefresh(Context context) {
         super(context);
     }
