@@ -2,12 +2,12 @@ package com.stupidman.admin.collectionandroiddemo.litepal.option;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stupidman.admin.collectionandroiddemo.R;
 import com.stupidman.admin.collectionandroiddemo.litepal.bean.Users;
@@ -89,7 +89,7 @@ public class UserActivity extends Activity implements View.OnClickListener {
                 /**
                  * 简单查询
                  */
-                //根据id查询一条数据
+                /*//根据id查询一条数据
                 Users user = DataSupport.find(Users.class, 1);
                 //查询表中的第一条数据
                 Users userFirst = DataSupport.findFirst(Users.class);
@@ -98,19 +98,19 @@ public class UserActivity extends Activity implements View.OnClickListener {
                 //根据id查询多条数据
                 List<Users> usersList = DataSupport.findAll(Users.class, 1, 3, 5, 7);
                 long[] ids = new long[] {1, 3, 5, 7};
-                List<Users> usersList1 = DataSupport.findAll(Users.class, ids);
+                List<Users> usersList1 = DataSupport.findAll(Users.class, ids);*/
                 //查询所有数据
                 List<Users> userAll = DataSupport.findAll(Users.class);
 
                 /**
                  * 连缀查询
                  */
-                List<Users> usersList2 = DataSupport.select("username", "password")
+              /*  List<Users> usersList2 = DataSupport.select("username", "password")
                         .where("username = ?", "root")
                         .order("username desc")
                         .limit(10)  //每次只查询10条数据
                         .offset(10) //实现分页查询，设置偏移量
-                        .find(Users.class);
+                        .find(Users.class);*/
 
                 /**
                  * 激进查询
@@ -129,9 +129,13 @@ public class UserActivity extends Activity implements View.OnClickListener {
                 /**
                  * 原生查询
                  */
-                Cursor cursor = DataSupport.findBySQL("select * from users where id = ?", "1");
+               // Cursor cursor = DataSupport.findBySQL("select * from users where id = ?", "1");
 
-                tvLitepalResult.setText("查询结果为：" + user.getUsername() + ":" + user.getPassword());
+                if (userAll.size() > 0) {
+                    tvLitepalResult.setText("查询结果为：" + userAll.get(0).getUsername() + ":" + userAll.get(0).getPassword());
+                } else {
+                    Toast.makeText(this, "没有需要的数据", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

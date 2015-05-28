@@ -1,17 +1,74 @@
 package com.stupidman.admin.collectionandroiddemo;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import com.stupidman.admin.collectionandroiddemo.litepal.option.UserActivity;
+import com.stupidman.admin.collectionandroiddemo.picshow.DrawableImageActivity;
+import com.stupidman.admin.collectionandroiddemo.share.thirldapplogindemo.ThirldMainActivity;
+import com.stupidman.admin.collectionandroiddemo.ui.MyFlowLayout;
 
 
-public class MainDemoActivity extends ActionBarActivity {
+public class MainDemoActivity extends Activity {
+
+    private MyFlowLayout myFlowLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_demo);
+
+        init();
+
+        addChildTo(myFlowLayout);
+    }
+
+    private void init() {
+        myFlowLayout = (MyFlowLayout) findViewById(R.id.flow_layout_group);
+    }
+
+    private void addChildTo(MyFlowLayout myFlowLayout) {
+        /*//测试流式布局
+        for (int i = 0; i < 20; i++){
+            Button btn = new Button(this);
+            btn.setText("我是按钮" + i);
+            final int j = i;
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainDemoActivity.this, "按钮" + j +"被点击", Toast.LENGTH_SHORT).show();
+                }
+            });
+            myFlowLayout.addView(btn);
+        }*/
+        //Litepal使用，实现对SQLite数据库的CRUD操作
+        Button btnLitapalAct = null;
+        createButton(btnLitapalAct, "操作本地数据库-Litepal", UserActivity.class, myFlowLayout);
+
+        //Drawalbe展示图片
+        Button btnDrawableImage = null;
+        createButton(btnDrawableImage, "Drawable图片", DrawableImageActivity.class, myFlowLayout);
+
+        Button btnShareOthers = null;
+        createButton(btnShareOthers, "第三方登录分享", ThirldMainActivity.class, myFlowLayout);
+    }
+
+    private void createButton(Button btnName, String text, final Class clazz, MyFlowLayout myFlowLayout) {
+        btnName = new Button(this);
+        btnName.setText(text);
+        btnName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainDemoActivity.this, clazz);
+                startActivity(intent);
+            }
+        });
+        myFlowLayout.addView(btnName);
     }
 
 

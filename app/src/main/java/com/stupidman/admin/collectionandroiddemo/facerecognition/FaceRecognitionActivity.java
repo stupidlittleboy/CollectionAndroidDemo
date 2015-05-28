@@ -1,9 +1,9 @@
 package com.stupidman.admin.collectionandroiddemo.facerecognition;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.stupidman.admin.collectionandroiddemo.R;
 import com.stupidman.admin.collectionandroiddemo.ui.CircleDrawableImage;
 
-public class FaceRecognitionActivity extends ActionBarActivity {
+public class FaceRecognitionActivity extends Activity {
 
     private ImageView ivFacePic;
     private TextView tvFaceCount;
@@ -43,7 +43,7 @@ public class FaceRecognitionActivity extends ActionBarActivity {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.outWidth = width;
                 options.outHeight = width;
-                Bitmap mBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.search, options);
+                Bitmap mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.search, options);
                 ivFaceChoose.setImageDrawable(new CircleDrawableImage(mBitmap));
             }
         });
