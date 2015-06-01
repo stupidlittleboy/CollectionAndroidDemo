@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.stupidman.admin.collectionandroiddemo.game2048.Game2048Activity;
 import com.stupidman.admin.collectionandroiddemo.litepal.option.UserActivity;
 import com.stupidman.admin.collectionandroiddemo.picshow.DrawableImageActivity;
 import com.stupidman.admin.collectionandroiddemo.share.thirldapplogindemo.ThirldMainActivity;
@@ -56,6 +57,9 @@ public class MainDemoActivity extends Activity {
 
         Button btnShareOthers = null;
         createButton(btnShareOthers, "第三方登录分享", ThirldMainActivity.class, myFlowLayout);
+
+        Button btnGame2048 = null;
+        createButton(btnGame2048, "2048游戏", Game2048Activity.class, myFlowLayout);
     }
 
     private void createButton(Button btnName, String text, final Class clazz, MyFlowLayout myFlowLayout) {

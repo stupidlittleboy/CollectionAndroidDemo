@@ -28,216 +28,218 @@ import static cn.sharesdk.framework.utils.R.getStringRes;
 
 public class EditPageFakeActivity extends FakeActivity {
 
-	protected List<Platform> platforms;
+    protected List<Platform> platforms;
 
-	protected HashMap<String, Object> shareParamMap;
-	// 设置显示模式为Dialog模式
-	protected boolean dialogMode;
-	protected View backgroundView;
-	protected ArrayList<String> toFriendList;
-	private ArrayList<ImageInfo> shareImageList;
+    protected HashMap<String, Object> shareParamMap;
+    // 设置显示模式为Dialog模式
+    protected boolean dialogMode;
+    protected View backgroundView;
+    protected ArrayList<String> toFriendList;
+    private ArrayList<ImageInfo> shareImageList;
 
-	protected static class ImageInfo {
-		public String paramName;
-		public String srcValue;
-		public Bitmap bitmap;
-	}
+    public void setShareData(HashMap<String, Object> data) {
+        shareParamMap = data;
+    }
 
-	protected static interface ImageListResultsCallback {
-		void onFinish(ArrayList<ImageInfo> results);
-	}
+    /**
+     * 设置显示模式为Dialog模式
+     */
+    public void setDialogMode() {
+        dialogMode = true;
+    }
 
-	public void setShareData(HashMap<String, Object> data) {
-		shareParamMap = data;
-	}
+    /**
+     * @param bgView
+     */
+    public void setBackgroundView(View bgView) {
+        this.backgroundView = bgView;
+    }
 
-	/** 设置显示模式为Dialog模式 */
-	public void setDialogMode() {
-		dialogMode = true;
-	}
+    public void setPlatforms(List<Platform> supportEditPagePlatforms) {
+        this.platforms = supportEditPagePlatforms;
+    }
 
-	/**
-	 * @param bgView
-	 */
-	public void setBackgroundView(View bgView) {
-		this.backgroundView = bgView;
-	}
+    public String getLogoName(String platform) {
+        if (platform == null) {
+            return "";
+        }
 
-	public void setPlatforms(List<Platform> supportEditPagePlatforms) {
-		this.platforms = supportEditPagePlatforms;
-	}
+        int resId = getStringRes(getContext(), platform);
+        return getContext().getString(resId);
+    }
 
-	public String getLogoName(String platform) {
-		if (platform == null) {
-			return "";
-		}
+    protected boolean isShowAtUserLayout(String platformName) {
+        return "SinaWeibo".equals(platformName) || "TencentWeibo".equals(platformName)
+                || "Facebook".equals(platformName) || "Twitter".equals(platformName)
+                || "FacebookMessenger".equals(platformName);
+    }
 
-		int resId = getStringRes(getContext(), platform);
-		return getContext().getString(resId);
-	}
+    protected String getAtUserButtonText(String platform) {
+        return "FacebookMessenger".equals(platform) ? "To" : "@";
+    }
 
-	protected boolean isShowAtUserLayout(String platformName) {
-		return "SinaWeibo".equals(platformName) || "TencentWeibo".equals(platformName)
-				|| "Facebook".equals(platformName) || "Twitter".equals(platformName)
-				|| "FacebookMessenger".equals(platformName);
-	}
+    protected String getJoinSelectedUser(HashMap<String, Object> data) {
+        if (data != null && data.containsKey("selected")) {
+            @SuppressWarnings("unchecked")
+            ArrayList<String> selected = (ArrayList<String>) data.get("selected");
+            String platform = ((Platform) data.get("platform")).getName();
+            if ("FacebookMessenger".equals(platform)) {
+                toFriendList = selected;
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (String sel : selected) {
+                sb.append('@').append(sel).append(' ');
+            }
+            return sb.toString();
+        }
+        return null;
+    }
 
-	protected String getAtUserButtonText(String platform) {
-		return "FacebookMessenger".equals(platform) ? "To" : "@";
-	}
+    protected boolean initImageList(ImageListResultsCallback callback) {
+        String imageUrl = (String) shareParamMap.get("imageUrl");
+        String imagePath = (String) shareParamMap.get("imagePath");
+        Bitmap viewToShare = (Bitmap) shareParamMap.get("viewToShare");
+        String[] imageArray = (String[]) shareParamMap.get("imageArray");
 
-	protected String getJoinSelectedUser(HashMap<String, Object> data) {
-		if (data != null && data.containsKey("selected")) {
-			@SuppressWarnings("unchecked")
-			ArrayList<String> selected = (ArrayList<String>) data.get("selected");
-			String platform = ((Platform)data.get("platform")).getName();
-			if("FacebookMessenger".equals(platform)) {
-				toFriendList = selected;
-				return null;
-			}
-			StringBuilder sb = new StringBuilder();
-			for (String sel : selected) {
-				sb.append('@').append(sel).append(' ');
-			}
-			return sb.toString();
-		}
-		return null;
-	}
+        shareImageList = new ArrayList<ImageInfo>();
+        if (!TextUtils.isEmpty(imagePath) && new File(imagePath).exists()) {
+            ImageInfo imageInfo = new ImageInfo();
+            imageInfo.paramName = "imagePath";
+            imageInfo.srcValue = imagePath;
+            shareImageList.add(imageInfo);
+            shareParamMap.remove("imagePath");
+        } else if (viewToShare != null && !viewToShare.isRecycled()) {
+            ImageInfo imageInfo = new ImageInfo();
+            imageInfo.paramName = "viewToShare";
+            imageInfo.bitmap = viewToShare;
+            shareImageList.add(imageInfo);
+            shareParamMap.remove("viewToShare");
+        } else if (!TextUtils.isEmpty(imageUrl)) {
+            ImageInfo imageInfo = new ImageInfo();
+            imageInfo.paramName = "imageUrl";
+            imageInfo.srcValue = imageUrl;
+            shareImageList.add(imageInfo);
+            shareParamMap.remove("imageUrl");
+        } else if (imageArray != null && imageArray.length > 0) {
+            for (String imageUri : imageArray) {
+                if (TextUtils.isEmpty(imageUri))
+                    continue;
+                ImageInfo imageInfo = new ImageInfo();
+                imageInfo.paramName = "imageArray";
+                imageInfo.srcValue = imageUri;
+                shareImageList.add(imageInfo);
+            }
+            shareParamMap.remove("imageArray");
+        }
 
-	protected boolean initImageList(ImageListResultsCallback callback) {
-		String imageUrl = (String) shareParamMap.get("imageUrl");
-		String imagePath = (String) shareParamMap.get("imagePath");
-		Bitmap viewToShare = (Bitmap) shareParamMap.get("viewToShare");
-		String[] imageArray = (String[]) shareParamMap.get("imageArray");
+        if (shareImageList.size() == 0) {
+            return false;
+        }
 
-		shareImageList = new ArrayList<ImageInfo>();
-		if(!TextUtils.isEmpty(imagePath) && new File(imagePath).exists()) {
-			ImageInfo imageInfo = new ImageInfo();
-			imageInfo.paramName = "imagePath";
-			imageInfo.srcValue = imagePath;
-			shareImageList.add(imageInfo);
-			shareParamMap.remove("imagePath");
-		} else if(viewToShare != null && !viewToShare.isRecycled()){
-			ImageInfo imageInfo = new ImageInfo();
-			imageInfo.paramName = "viewToShare";
-			imageInfo.bitmap = viewToShare;
-			shareImageList.add(imageInfo);
-			shareParamMap.remove("viewToShare");
-		} else if (!TextUtils.isEmpty(imageUrl)) {
-			ImageInfo imageInfo = new ImageInfo();
-			imageInfo.paramName = "imageUrl";
-			imageInfo.srcValue = imageUrl;
-			shareImageList.add(imageInfo);
-			shareParamMap.remove("imageUrl");
-		} else if(imageArray != null && imageArray.length > 0) {
-			for(String imageUri : imageArray) {
-				if(TextUtils.isEmpty(imageUri))
-					continue;
-				ImageInfo imageInfo = new ImageInfo();
-				imageInfo.paramName = "imageArray";
-				imageInfo.srcValue = imageUri;
-				shareImageList.add(imageInfo);
-			}
-			shareParamMap.remove("imageArray");
-		}
+        new AsyncTask<Object, Void, ImageListResultsCallback>() {
+            @Override
+            protected ImageListResultsCallback doInBackground(Object... objects) {
+                for (ImageInfo imageInfo : shareImageList) {
+                    if (imageInfo.bitmap == null) {
+                        try {
+                            Bitmap bitmap;
+                            String uri = imageInfo.srcValue;
+                            if (uri.startsWith("http://") || uri.startsWith("https://")) {
+                                uri = BitmapHelper.downloadBitmap(activity, uri);
+                            }
+                            bitmap = BitmapHelper.getBitmap(uri);
+                            if (bitmap == null)
+                                continue;
 
-		if(shareImageList.size() == 0) {
-			return false;
-		}
+                            imageInfo.bitmap = bitmap;
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                return (ImageListResultsCallback) objects[0];
+            }
 
-		new AsyncTask<Object, Void, ImageListResultsCallback>() {
-			@Override
-			protected ImageListResultsCallback doInBackground(Object... objects) {
-				for(ImageInfo imageInfo : shareImageList) {
-					if(imageInfo.bitmap == null) {
-						try{
-							Bitmap bitmap;
-							String uri = imageInfo.srcValue;
-							if(uri.startsWith("http://") || uri.startsWith("https://")) {
-								uri = BitmapHelper.downloadBitmap(activity, uri);
-							}
-							bitmap = BitmapHelper.getBitmap(uri);
-							if(bitmap == null)
-								continue;
+            @Override
+            protected void onPostExecute(ImageListResultsCallback callback1) {
+                callback1.onFinish(shareImageList);
+            }
+        }.execute(callback);
+        return true;
+    }
 
-							imageInfo.bitmap = bitmap;
-						} catch (Throwable e) {
-							e.printStackTrace();
-						}
-					}
-				}
-				return (ImageListResultsCallback) objects[0];
-			}
+    protected void removeImage(ImageInfo imageInfo) {
+        if (shareImageList == null || imageInfo == null)
+            return;
+        shareImageList.remove(imageInfo);
+    }
 
-			@Override
-			protected void onPostExecute(ImageListResultsCallback callback1) {
-				callback1.onFinish(shareImageList);
-			}
-		}.execute(callback);
-		return true;
-	}
+    protected void setResultAndFinish() {
+        ArrayList<String> imageArray = new ArrayList<String>();
+        if (shareImageList != null) {
+            for (ImageInfo imageInfo : shareImageList) {
+                if ("imagePath".equals(imageInfo.paramName) || "imageUrl".equals(imageInfo.paramName)) {
+                    shareParamMap.put(imageInfo.paramName, imageInfo.srcValue);
+                } else if ("viewToShare".equals(imageInfo.paramName)) {
+                    shareParamMap.put(imageInfo.paramName, imageInfo.bitmap);
+                } else if ("imageArray".equals(imageInfo.paramName)) {
+                    imageArray.add(imageInfo.srcValue);
+                }
+            }
+            shareImageList.clear();
+            if (imageArray.size() == 0) {
+                shareParamMap.put("imageArray", null);
+            } else {
+                shareParamMap.put("imageArray", imageArray.toArray(new String[imageArray.size()]));
+            }
+        }
 
-	protected void removeImage(ImageInfo imageInfo) {
-		if(shareImageList == null || imageInfo == null)
-			return;
-		shareImageList.remove(imageInfo);
-	}
+        HashMap<Platform, HashMap<String, Object>> editRes = new HashMap<Platform, HashMap<String, Object>>();
 
-	protected void setResultAndFinish() {
-		ArrayList<String> imageArray = new ArrayList<String>();
-		if(shareImageList != null) {
-			for(ImageInfo imageInfo : shareImageList) {
-				if("imagePath".equals(imageInfo.paramName) || "imageUrl".equals(imageInfo.paramName)) {
-					shareParamMap.put(imageInfo.paramName, imageInfo.srcValue);
-				} else if("viewToShare".equals(imageInfo.paramName)) {
-					shareParamMap.put(imageInfo.paramName, imageInfo.bitmap);
-				} else if("imageArray".equals(imageInfo.paramName)) {
-					imageArray.add(imageInfo.srcValue);
-				}
-			}
-			shareImageList.clear();
-			if(imageArray.size() == 0) {
-				shareParamMap.put("imageArray", null);
-			} else {
-				shareParamMap.put("imageArray", imageArray.toArray(new String[imageArray.size()]));
-			}
-		}
+        for (Platform platform : platforms) {
 
-		HashMap<Platform, HashMap<String, Object>> editRes = new HashMap<Platform, HashMap<String,Object>>();
+            if ("FacebookMessenger".equals(platform.getName())) {
+                HashMap<String, Object> param = new HashMap<String, Object>(shareParamMap);
+                if (toFriendList != null && toFriendList.size() > 0) {
+                    param.put("address", toFriendList.get(toFriendList.size() - 1));
+                }
+                if (param.get("address") == null) {
+                    int resId = getStringRes(activity, "select_a_friend");
+                    if (resId > 0) {
+                        Toast.makeText(getContext(), activity.getString(resId) + " - " + platform.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                    return;
+                }
+                editRes.put(platform, param);
+                // a statistics of Sharing
+                ShareSDK.logDemoEvent(3, platform);
+                continue;
+            }
+            // a statistics of Sharing
+            ShareSDK.logDemoEvent(3, platform);
+            editRes.put(platform, shareParamMap);
+        }
 
-		for(Platform platform : platforms) {
+        HashMap<String, Object> res = new HashMap<String, Object>();
+        res.put("editRes", editRes);
+        setResult(res);
+        finish();
+    }
 
-			if("FacebookMessenger".equals(platform.getName())) {
-				HashMap<String, Object> param = new HashMap<String, Object>(shareParamMap);
-				if(toFriendList != null && toFriendList.size() > 0) {
-					param.put("address", toFriendList.get(toFriendList.size() - 1));
-				}
-				if(param.get("address") == null) {
-					int resId = getStringRes(activity, "select_a_friend");
-					if (resId > 0) {
-						Toast.makeText(getContext(), activity.getString(resId) + " - " + platform.getName(), Toast.LENGTH_SHORT).show();
-					}
-					return;
-				}
-				editRes.put(platform, param);
-				// a statistics of Sharing
-				ShareSDK.logDemoEvent(3, platform);
-				continue;
-			}
-			// a statistics of Sharing
-			ShareSDK.logDemoEvent(3, platform);
-			editRes.put(platform, shareParamMap);
-		}
+    @Override
+    public boolean onFinish() {
+        shareImageList = null;
+        return super.onFinish();
+    }
 
-		HashMap<String, Object> res = new HashMap<String, Object>();
-		res.put("editRes", editRes);
-		setResult(res);
-		finish();
-	}
+    protected static interface ImageListResultsCallback {
+        void onFinish(ArrayList<ImageInfo> results);
+    }
 
-	@Override
-	public boolean onFinish() {
-		shareImageList = null;
-		return super.onFinish();
-	}
+    protected static class ImageInfo {
+        public String paramName;
+        public String srcValue;
+        public Bitmap bitmap;
+    }
 }

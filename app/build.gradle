@@ -27,7 +27,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
     /**
-     *     Litepal
+     *      Litepal
      * */
     compile 'org.litepal.android:core:1.2.0'
     compile files('libs/faceppsdk.jar')

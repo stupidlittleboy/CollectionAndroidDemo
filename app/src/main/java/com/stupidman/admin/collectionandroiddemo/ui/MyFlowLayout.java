@@ -38,6 +38,7 @@ public class MyFlowLayout extends ViewGroup {
 
     /**
      * 设置水平空间
+     *
      * @param pixelSize
      */
     public void setHorizontalSpacing(int pixelSize) {
@@ -81,7 +82,7 @@ public class MyFlowLayout extends ViewGroup {
                 childLeft = paddingLeft;
                 childTop += mVerticalSpacing + lineHeight;
                 lineHeight = childHeight;
-            }   else    {
+            } else {
                 childLeft += childWidth + mHorizontralSpacing;
             }
         }

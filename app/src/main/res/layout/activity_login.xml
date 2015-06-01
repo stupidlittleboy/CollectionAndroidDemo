@@ -6,9 +6,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.thirldapplogindemo.LoginActivity" >
+    tools:context="com.example.thirldapplogindemo.LoginActivity">
 
-     <!--ShareSDK-Core包下封装的一个标题栏-->
+    <!--ShareSDK-Core包下封装的一个标题栏-->
     <cn.sharesdk.framework.TitleLayout
         android:id="@+id/llTitle"
         android:layout_width="fill_parent"
@@ -22,7 +22,7 @@
         android:layout_below="@id/llTitle"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/tvJson"

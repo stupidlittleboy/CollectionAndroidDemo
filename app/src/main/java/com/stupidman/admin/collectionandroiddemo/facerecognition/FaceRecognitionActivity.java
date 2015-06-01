@@ -17,7 +17,7 @@ public class FaceRecognitionActivity extends Activity {
 
     private ImageView ivFacePic;
     private TextView tvFaceCount;
-    private  ImageView ivFaceChoose;
+    private ImageView ivFaceChoose;
     private int width;
 
     @Override

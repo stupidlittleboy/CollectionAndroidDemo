@@ -14,197 +14,196 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 
 public class PlatformListFakeActivity extends FakeActivity {
-	protected HashMap<String, Object> shareParamsMap;
-	protected boolean silent;
-	protected ArrayList<CustomerLogo> customerLogos;
-	protected HashMap<String, String> hiddenPlatforms;
-	private boolean canceled = false;
-	protected View backgroundView;
+    protected HashMap<String, Object> shareParamsMap;
+    protected boolean silent;
+    protected ArrayList<CustomerLogo> customerLogos;
+    protected HashMap<String, String> hiddenPlatforms;
+    protected View backgroundView;
+    protected OnShareButtonClickListener onShareButtonClickListener;
+    protected boolean dialogMode = false;
+    protected ThemeShareCallback themeShareCallback;
+    private boolean canceled = false;
 
-	protected OnShareButtonClickListener onShareButtonClickListener;
-	protected boolean dialogMode = false;
-	protected ThemeShareCallback themeShareCallback;
+    public void onCreate() {
+        super.onCreate();
 
-	public static interface OnShareButtonClickListener {
-		void onClick(View v, List<Object> checkPlatforms);
-	}
+        canceled = false;
 
-	public void onCreate() {
-		super.onCreate();
+        if (themeShareCallback == null) {
+            finish();
+        }
+    }
 
-		canceled = false;
+    public boolean onKeyEvent(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            canceled = true;
+        }
+        return super.onKeyEvent(keyCode, event);
+    }
 
-		if(themeShareCallback == null) {
-			finish();
-		}
-	}
+    protected void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
 
-	public boolean onKeyEvent(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			canceled = true;
-		}
-		return super.onKeyEvent(keyCode, event);
-	}
+    public boolean onFinish() {
 
-	protected void setCanceled(boolean canceled) {
-		this.canceled = canceled;
-	}
+        // 取消分享菜单的统计
+        if (canceled) {
+            ShareSDK.logDemoEvent(2, null);
+        }
 
-	public boolean onFinish() {
+        return super.onFinish();
+    }
 
-		// 取消分享菜单的统计
-		if (canceled) {
-			ShareSDK.logDemoEvent(2, null);
-		}
+    @Override
+    public void show(Context context, Intent i) {
+        super.show(context, i);
+    }
 
-		return super.onFinish();
-	}
+    public HashMap<String, Object> getShareParamsMap() {
+        return shareParamsMap;
+    }
 
-	@Override
-	public void show(Context context, Intent i) {
-		super.show(context, i);
-	}
+    public void setShareParamsMap(HashMap<String, Object> shareParamsMap) {
+        this.shareParamsMap = shareParamsMap;
+    }
 
-	public HashMap<String, Object> getShareParamsMap() {
-		return shareParamsMap;
-	}
+    public boolean isSilent() {
+        return silent;
+    }
 
-	public void setShareParamsMap(HashMap<String, Object> shareParamsMap) {
-		this.shareParamsMap = shareParamsMap;
-	}
+    public void setSilent(boolean silent) {
+        this.silent = silent;
+    }
 
-	public boolean isSilent() {
-		return silent;
-	}
+    public ArrayList<CustomerLogo> getCustomerLogos() {
+        return customerLogos;
+    }
 
-	public void setSilent(boolean silent) {
-		this.silent = silent;
-	}
+    public void setCustomerLogos(ArrayList<CustomerLogo> customerLogos) {
+        this.customerLogos = customerLogos;
+    }
 
-	public ArrayList<CustomerLogo> getCustomerLogos() {
-		return customerLogos;
-	}
+    public HashMap<String, String> getHiddenPlatforms() {
+        return hiddenPlatforms;
+    }
 
-	public void setCustomerLogos(ArrayList<CustomerLogo> customerLogos) {
-		this.customerLogos = customerLogos;
-	}
+    public void setHiddenPlatforms(HashMap<String, String> hiddenPlatforms) {
+        this.hiddenPlatforms = hiddenPlatforms;
+    }
 
-	public HashMap<String, String> getHiddenPlatforms() {
-		return hiddenPlatforms;
-	}
+    public View getBackgroundView() {
+        return backgroundView;
+    }
 
-	public void setHiddenPlatforms(HashMap<String, String> hiddenPlatforms) {
-		this.hiddenPlatforms = hiddenPlatforms;
-	}
+    public void setBackgroundView(View backgroundView) {
+        this.backgroundView = backgroundView;
+    }
 
-	public View getBackgroundView() {
-		return backgroundView;
-	}
+    public OnShareButtonClickListener getOnShareButtonClickListener() {
+        return onShareButtonClickListener;
+    }
 
-	public void setBackgroundView(View backgroundView) {
-		this.backgroundView = backgroundView;
-	}
+    public void setOnShareButtonClickListener(OnShareButtonClickListener onShareButtonClickListener) {
+        this.onShareButtonClickListener = onShareButtonClickListener;
+    }
 
-	public OnShareButtonClickListener getOnShareButtonClickListener() {
-		return onShareButtonClickListener;
-	}
+    public boolean isDialogMode() {
+        return dialogMode;
+    }
 
-	public void setOnShareButtonClickListener(OnShareButtonClickListener onShareButtonClickListener) {
-		this.onShareButtonClickListener = onShareButtonClickListener;
-	}
+    public void setDialogMode(boolean dialogMode) {
+        this.dialogMode = dialogMode;
+    }
 
-	public boolean isDialogMode() {
-		return dialogMode;
-	}
+    public ThemeShareCallback getThemeShareCallback() {
+        return themeShareCallback;
+    }
 
-	public void setDialogMode(boolean dialogMode) {
-		this.dialogMode = dialogMode;
-	}
+    public void setThemeShareCallback(ThemeShareCallback themeShareCallback) {
+        this.themeShareCallback = themeShareCallback;
+    }
 
-	public ThemeShareCallback getThemeShareCallback() {
-		return themeShareCallback;
-	}
+    protected void onShareButtonClick(View v, List<Object> checkedPlatforms) {
 
-	public void setThemeShareCallback(ThemeShareCallback themeShareCallback) {
-		this.themeShareCallback = themeShareCallback;
-	}
+        if (onShareButtonClickListener != null) {
+            onShareButtonClickListener.onClick(v, checkedPlatforms);
+        }
 
-	protected void onShareButtonClick(View v, List<Object> checkedPlatforms) {
+        HashMap<Platform, HashMap<String, Object>> silentShareData = new HashMap<Platform, HashMap<String, Object>>();
+        final List<Platform> supportEditPagePlatforms = new ArrayList<Platform>();
 
-		if(onShareButtonClickListener != null) {
-			onShareButtonClickListener.onClick(v, checkedPlatforms);
-		}
+        Platform plat;
+        HashMap<String, Object> shareParam;
+        for (Object item : checkedPlatforms) {
+            if (item instanceof CustomerLogo)
+                continue;
 
-		HashMap<Platform, HashMap<String, Object>> silentShareData = new HashMap<Platform, HashMap<String,Object>>();
-		final List<Platform> supportEditPagePlatforms = new ArrayList<Platform>();
+            plat = (Platform) item;
+            String name = plat.getName();
 
-		Platform plat;
-		HashMap<String, Object> shareParam;
-		for(Object item : checkedPlatforms) {
-			if(item instanceof CustomerLogo)
-				continue;
+            // EditPage不支持微信平台、Google+、QQ分享、Pinterest、信息和邮件，总是执行直接分享
+            if (silent || ShareCore.isDirectShare(plat)) {
+                shareParam = new HashMap<String, Object>(shareParamsMap);
+                shareParam.put("platform", name);
+                silentShareData.put(plat, shareParam);
+            } else {
+                supportEditPagePlatforms.add(plat);
+            }
+        }
+        if (silentShareData.size() > 0) {
+            themeShareCallback.doShare(silentShareData);
+        }
 
-			plat = (Platform)item;
-			String name = plat.getName();
+        // 跳转EditPage分享
+        if (supportEditPagePlatforms.size() > 0) {
+            showEditPage(supportEditPagePlatforms);
+        }
 
-			// EditPage不支持微信平台、Google+、QQ分享、Pinterest、信息和邮件，总是执行直接分享
-			if(silent || ShareCore.isDirectShare(plat)) {
-				shareParam = new HashMap<String, Object>(shareParamsMap);
-				shareParam.put("platform", name);
-				silentShareData.put(plat, shareParam);
-			} else {
-				supportEditPagePlatforms.add(plat);
-			}
-		}
-		if (silentShareData.size() > 0) {
-			themeShareCallback.doShare(silentShareData);
-		}
+        finish();
+    }
 
-		// 跳转EditPage分享
-		if(supportEditPagePlatforms.size() > 0) {
-			showEditPage(supportEditPagePlatforms);
-		}
+    protected void showEditPage(List<Platform> platforms) {
+        showEditPage(getContext(), platforms);
+    }
 
-		finish();
-	}
+    public void showEditPage(Context context, Platform platform) {
+        ArrayList<Platform> platforms = new ArrayList<Platform>(1);
+        platforms.add(platform);
+        showEditPage(context, platforms);
+    }
 
-	protected void showEditPage(List<Platform> platforms) {
-		showEditPage(getContext(), platforms);
-	}
+    protected void showEditPage(Context context, List<Platform> platforms) {
+        EditPageFakeActivity editPageFakeActivity;
+        String editPageClass = ((Object) this).getClass().getPackage().getName() + ".EditPage";
+        try {
+            editPageFakeActivity = (EditPageFakeActivity) Class.forName(editPageClass).newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
-	public void showEditPage(Context context, Platform platform) {
-		ArrayList<Platform> platforms = new ArrayList<Platform>(1);
-		platforms.add(platform);
-		showEditPage(context, platforms);
-	}
+        editPageFakeActivity.setBackgroundView(backgroundView);
+        editPageFakeActivity.setShareData(shareParamsMap);
+        editPageFakeActivity.setPlatforms(platforms);
+        if (dialogMode) {
+            editPageFakeActivity.setDialogMode();
+        }
+        editPageFakeActivity.showForResult(context, null, new FakeActivity() {
+            public void onResult(HashMap<String, Object> data) {
+                if (data == null)
+                    return;
+                if (data.containsKey("editRes")) {
+                    @SuppressWarnings("unchecked")
+                    HashMap<Platform, HashMap<String, Object>> editRes
+                            = (HashMap<Platform, HashMap<String, Object>>) data.get("editRes");
+                    themeShareCallback.doShare(editRes);
+                }
+            }
+        });
+    }
 
-	protected void showEditPage(Context context, List<Platform> platforms) {
-		EditPageFakeActivity editPageFakeActivity;
-		String editPageClass = ((Object)this).getClass().getPackage().getName()+".EditPage";
-		try {
-			editPageFakeActivity = (EditPageFakeActivity) Class.forName(editPageClass).newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
-
-		editPageFakeActivity.setBackgroundView(backgroundView);
-		editPageFakeActivity.setShareData(shareParamsMap);
-		editPageFakeActivity.setPlatforms(platforms);
-		if (dialogMode) {
-			editPageFakeActivity.setDialogMode();
-		}
-		editPageFakeActivity.showForResult(context, null, new FakeActivity() {
-			public void onResult(HashMap<String, Object> data) {
-				if(data == null)
-					return;
-				if (data.containsKey("editRes")) {
-					@SuppressWarnings("unchecked")
-					HashMap<Platform, HashMap<String, Object>> editRes
-							= (HashMap<Platform, HashMap<String, Object>>) data.get("editRes");
-					themeShareCallback.doShare(editRes);
-				}
-			}
-		});
-	}
+    public static interface OnShareButtonClickListener {
+        void onClick(View v, List<Object> checkPlatforms);
+    }
 }

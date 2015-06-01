@@ -41,7 +41,7 @@ public class UserActivity extends Activity implements View.OnClickListener {
         tvLitepalResult = (TextView) findViewById(R.id.tv_litepal_result);
         btnLitepalCreate = (Button) findViewById(R.id.btn_litepal_create);
         btnLitepalModify = (Button) findViewById(R.id.btn_litepal_modify);
-        btnLitepalDelete  = (Button) findViewById(R.id.btn_litepal_delete);
+        btnLitepalDelete = (Button) findViewById(R.id.btn_litepal_delete);
         btnLitepalQuery = (Button) findViewById(R.id.btn_litepal_query);
         btnLitepalCreate.setOnClickListener(this);
         btnLitepalModify.setOnClickListener(this);
@@ -52,15 +52,15 @@ public class UserActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
+        switch (id) {
             case R.id.btn_litepal_create:
                 Users users = new Users();
                 users.setUsername("root");
                 users.setPassword("111");
                 users.save();
-                if (users.isSaved()){
+                if (users.isSaved()) {
                     tvLitepalResult.setText("添加数据成功");
-                }else{
+                } else {
                     tvLitepalResult.setText("添加数据失败");
                 }
                 break;
@@ -129,7 +129,7 @@ public class UserActivity extends Activity implements View.OnClickListener {
                 /**
                  * 原生查询
                  */
-               // Cursor cursor = DataSupport.findBySQL("select * from users where id = ?", "1");
+                // Cursor cursor = DataSupport.findBySQL("select * from users where id = ?", "1");
 
                 if (userAll.size() > 0) {
                     tvLitepalResult.setText("查询结果为：" + userAll.get(0).getUsername() + ":" + userAll.get(0).getPassword());
