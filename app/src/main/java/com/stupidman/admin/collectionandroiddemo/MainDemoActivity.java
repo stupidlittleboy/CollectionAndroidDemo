@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.stupidman.admin.collectionandroiddemo.camera_photo.CameraAndPhoto;
 import com.stupidman.admin.collectionandroiddemo.game2048.Game2048Activity;
 import com.stupidman.admin.collectionandroiddemo.litepal.option.UserActivity;
 import com.stupidman.admin.collectionandroiddemo.picshow.DrawableImageActivity;
@@ -60,6 +61,9 @@ public class MainDemoActivity extends Activity {
 
         Button btnGame2048 = null;
         createButton(btnGame2048, "2048游戏", Game2048Activity.class, myFlowLayout);
+
+        Button btnCamera = null;
+        createButton(btnCamera, "拍照", CameraAndPhoto.class, myFlowLayout);
     }
 
     private void createButton(Button btnName, String text, final Class clazz, MyFlowLayout myFlowLayout) {
