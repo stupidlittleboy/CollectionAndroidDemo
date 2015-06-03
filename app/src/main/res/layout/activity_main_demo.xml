@@ -16,4 +16,6 @@
         flowlayout:horizontal_spacing="10dp"
         flowlayout:vertical_spacing="10dp"></com.stupidman.admin.collectionandroiddemo.ui.MyFlowLayout>
 
+
+
 </ScrollView>

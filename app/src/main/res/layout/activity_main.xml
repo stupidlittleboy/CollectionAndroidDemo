@@ -54,4 +54,9 @@
             android:src="@drawable/logo_wechat" />
     </LinearLayout>
 
+    <com.stupidman.admin.collectionandroiddemo.ui.ClearEditText
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
