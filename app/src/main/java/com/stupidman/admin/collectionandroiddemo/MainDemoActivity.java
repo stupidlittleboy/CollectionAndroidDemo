@@ -36,14 +36,14 @@ public class MainDemoActivity extends Activity {
 
     private void addChildTo(MyFlowLayout myFlowLayout) {
         /*//测试流式布局
-        for (int i = 0; i < 20; i++){
+        for (int i = 0; i < 35; i++){
             Button btn = new Button(this);
             btn.setText("我是按钮" + i);
             final int j = i;
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainDemoActivity.this, "按钮" + j +"被点击", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainDemoActivity.this, "按钮" + j + "被点击", Toast.LENGTH_SHORT).show();
                 }
             });
             myFlowLayout.addView(btn);
@@ -56,14 +56,24 @@ public class MainDemoActivity extends Activity {
         Button btnDrawableImage = null;
         createButton(btnDrawableImage, "Drawable图片", DrawableImageActivity.class, myFlowLayout);
 
+        //第三方登录分享
         Button btnShareOthers = null;
         createButton(btnShareOthers, "第三方登录分享", ThirldMainActivity.class, myFlowLayout);
 
+        //2048游戏
         Button btnGame2048 = null;
         createButton(btnGame2048, "2048游戏", Game2048Activity.class, myFlowLayout);
 
+        //拍照
         Button btnCamera = null;
         createButton(btnCamera, "拍照", CameraAndPhoto.class, myFlowLayout);
+
+       /* Button btnCamera1 = null;
+        createButton(btnCamera1, "拍照", CameraAndPhoto.class, myFlowLayout);*/
+
+        //传感器
+        Button btnSensor = null;
+        createButton(btnSensor, "传感器", Game2048Activity.class, myFlowLayout);
     }
 
     private void createButton(Button btnName, String text, final Class clazz, MyFlowLayout myFlowLayout) {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="game_level">
+        <item>EASY</item>
+        <item>NORMAL</item>
+        <item>DIFFICULTY</item>
+    </string-array>
+
+    <string-array name="game_goal">
+        <item>1024</item>
+        <item>2048</item>
+        <item>4096</item>
+    </string-array>
+</resources>

@@ -1,0 +1,108 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.stupidman.admin.collectionandroiddemo.game2048.Game2048Configuration">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#C4E1FF"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="配置文件"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:background="#C4E1FF"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_game2048_level_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="#C4E1FF"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="选择难度"
+            android:textSize="25sp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_game2048_level_title"
+            android:layout_gravity="center_horizontal"
+            android:entries="@array/game_level"
+            android:scrollbarSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv_game2048_goal_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="#C4E1FF"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="实现目标"
+            android:textSize="25sp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_game2048_goal_title"
+            android:layout_gravity="center_horizontal"
+            android:entries="@array/game_goal"
+            android:scrollbarSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_game2048_back"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_shape"
+                android:padding="10dp"
+                android:text="返回"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/btn_game2048_done"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_shape"
+                android:padding="10dp"
+                android:text="确认"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="#C4E1FF"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="请联系我"
+        android:textSize="25sp" />
+
+
+</LinearLayout>

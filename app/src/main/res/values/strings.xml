@@ -14,4 +14,6 @@
     <string name="errcode_unknown">发送返回</string>
     <string name="send_img_file_not_exist">文件不存在</string>
     <string name="title_activity_camera_and_photo">CameraAndPhoto</string>
+    <string name="title_activity_sernor">SernorActivity</string>
+    <string name="title_activity_game2048_configuration">Game2048Configuration</string>
 </resources>

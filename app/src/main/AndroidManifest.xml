@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <!-- 拍照权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -96,6 +96,14 @@
         <activity
             android:name=".camera_photo.CameraAndPhoto"
             android:label="@string/title_activity_camera_and_photo" >
+        </activity>
+        <activity
+            android:name=".sensor.SensorActivity"
+            android:label="@string/title_activity_sernor" >
+        </activity>
+        <activity
+            android:name=".game2048.Game2048Configuration"
+            android:label="@string/title_activity_game2048_configuration" >
         </activity>
     </application>
 
