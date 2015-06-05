@@ -36,6 +36,7 @@
             android:textSize="25sp" />
 
         <Spinner
+            android:id="@+id/spinner_game_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_game2048_level_title"
@@ -56,6 +57,7 @@
             android:textSize="25sp" />
 
         <Spinner
+            android:id="@+id/spinner_game_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_game2048_goal_title"
